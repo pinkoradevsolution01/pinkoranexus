@@ -1,0 +1,19 @@
+{
+  "name": "pinkora-dev-saas",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "start": "node scripts/dev.js",
+    "dev": "node scripts/dev.js",
+    "install:all": "npm install --workspaces",
+    "start:backend": "npm run dev --workspace backend",
+    "start:frontend": "npm start --workspace frontend"
+  },
+  "dependencies": {
+    "underscore": "^1.13.8"
+  }
+}

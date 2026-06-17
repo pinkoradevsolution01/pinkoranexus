@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  margin: 0;
+  font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #F9FAFB;
+  color: #111827;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html:not(.dark) body {
+  background: #F9FAFB;
+  color: #111827;
+}
+
+html:not(.dark) h1,
+html:not(.dark) h2,
+html:not(.dark) h3,
+html:not(.dark) h4,
+html:not(.dark) h5,
+html:not(.dark) h6 {
+  text-shadow: none;
+}
+
+html:not(.dark) [class*="bg-white"] {
+  background-color: #FFFFFF !important;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.05) !important;
+  border-color: rgba(17,24,39,0.06) !important;
+}
+
+html:not(.dark) [class*="bg-blue-600"] {
+  background-color: #1E3A8A !important;
+}
+
+html:not(.dark) [class*="bg-blue-700"] {
+  background-color: #1E3A8A !important;
+}
+
+html:not(.dark) [class*="text-blue-600"] {
+  color: #1E3A8A !important;
+}
+
+html:not(.dark) [class*="text-rose-600"] {
+  color: #E91E63 !important;
+}
+
+html:not(.dark) [class*="hover:bg-blue-700"] {
+  background-color: #1E3A8A !important;
+}
+
+html:not(.dark) [class*="border-blue-600"] {
+  border-color: #1E3A8A !important;
+}
+
+html:not(.dark) [class*="hover:text-blue-600"]:hover,
+html:not(.dark) [class*="hover:text-blue-700"]:hover {
+  text-shadow: 0 0 8px rgba(37,99,235,0.35);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Orbitron', 'Exo 2', 'Rajdhani', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6 {
+  text-shadow: 0 0 8px #3B82F6;
+}
+
+.dark body {
+  background-color: #0F172A;
+  background-image: linear-gradient(180deg, rgba(15,23,42,0.96) 0%, rgba(15,23,42,0.9) 100%), url('./assets/galaxy_theme.png');
+  background-size: cover, cover, cover, cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: #F9FAFB;
+}
+
+/* Theme palette variables */
+.dark {
+  --galaxy-deep: #0F172A;
+  --galaxy-navy: #1E293B;
+  --galaxy-purple: #3B82F6;
+  --galaxy-pink: #F472B6;
+  --galaxy-cyan: #3B82F6;
+  --galaxy-glow: rgba(59,130,246,0.20);
+  --galaxy-text: #F9FAFB;
+}
+
+/* Replace common blue accents in dark mode with the exact theme colors */
+.dark [class*="bg-blue-600"] { background-color: var(--galaxy-cyan) !important; }
+.dark [class*="bg-blue-700"] { background-color: var(--galaxy-purple) !important; }
+.dark [class*="text-blue-600"] { color: var(--galaxy-cyan) !important; }
+.dark [class*="hover:bg-blue-700"] { background-color: var(--galaxy-purple) !important; }
+.dark [class*="from-blue-600"] { background-image: linear-gradient(90deg, var(--galaxy-cyan), var(--galaxy-pink)) !important; }
+.dark [class*="to-blue-50"] { background-image: linear-gradient(90deg, var(--galaxy-cyan), rgba(255,255,255,0.02)) !important; }
+.dark [class*="border-blue-600"] { border-color: var(--galaxy-cyan) !important; }
+
+.dark [class*="text-gray-900"],
+.dark [class*="text-slate-900"],
+.dark [class*="text-dark-900"] {
+  color: #F9FAFB !important;
+}
+
+.dark [class*="text-gray-600"],
+.dark [class*="text-gray-700"],
+.dark [class*="text-slate-600"],
+.dark [class*="text-slate-700"],
+.dark [class*="text-secondary-600"],
+.dark [class*="text-secondary-700"] {
+  color: #9CA3AF !important;
+}
+
+/* Soften white panels in dark mode with galaxy tint */
+.dark [class*="bg-white"] {
+  background-color: #1E293B !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+/* Glow for prominent headings in dark mode to feel celestial */
+.dark h1, .dark h2, .dark .text-5xl {
+  text-shadow: 0 0 8px #3B82F6;
+}
+
+/* Galaxy button utilities */
+.galaxy-cta {
+  background: linear-gradient(90deg, var(--galaxy-cyan), var(--galaxy-pink));
+  color: #fff !important;
+  box-shadow: 0 8px 30px var(--galaxy-glow);
+}
+.galaxy-outline {
+  border-color: rgba(59,130,246,0.20) !important;
+  color: var(--galaxy-cyan) !important;
+}
+
+/* Animated subtle star overlay for dark mode */
+.galaxy-stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.65;
+  mix-blend-mode: screen;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px);
+  background-size: 2px 2px, 120px 120px;
+  background-position: 0 0, 0 0;
+  animation: starMove 120s linear infinite, twinkle 6s ease-in-out infinite;
+}
+
+@keyframes starMove {
+  from { background-position: 0 0, 0 0; }
+  to   { background-position: 20000px 20000px, 240px 240px; }
+}
+
+@keyframes twinkle {
+  0%,100% { opacity: 0.55; }
+  50%     { opacity: 0.75; }
+}
+
+.dark .galaxy-stars { opacity: 0.6; }
+
+.dark [class*="border-blue-100"],
+.dark [class*="border-blue-200"] {
+  border-color: #334155 !important;
+}
+
+code {
+  font-family: 'Space Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
