@@ -13,26 +13,65 @@ const systems = [
       'Usage trend forecasting',
       'Tenant-level visibility',
     ],
-    plans: [
-      {
-        name: 'Starter',
-        price: '₱1,499',
-        detail: 'For early-stage teams that need essential monitoring.',
-        features: ['1 dashboard', 'Email alerts', 'Weekly reports'],
-      },
-      {
-        name: 'Growth',
-        price: '₱2,499',
-        detail: 'For growing teams that need faster response and deeper insights.',
-        features: ['5 dashboards', 'Smart alerts', 'Daily reports', 'Priority support'],
-      },
-      {
-        name: 'Enterprise',
-        price: 'Customs',
-        detail: 'For advanced deployments with custom workflows and governance.',
-        features: ['Unlimited dashboards', 'API access', 'SLA support', 'Custom onboarding'],
-      },
-    ],
+    pricingModels: {
+      oneTime: [
+        {
+          name: 'Basic',
+          price: '₱19,999',
+          detail: 'Small businesses starting with POS and local operations.',
+          features: ['Smart POS Terminal', '2 user accounts', 'Up to 100 products', 'Basic inventory management', 'Sales reports', 'Local storage and backup', 'E-Wallet integration', 'Email support', 'AI Help Assistance', 'Delivery management support'],
+        },
+        {
+          name: 'Standard',
+          price: '₱34,999',
+          detail: 'Growing retail stores requiring cloud sync and business management tools.',
+          badge: 'Most Popular',
+          features: ['Smart POS Terminal', '5 user accounts', 'Up to 500 products', 'Advanced inventory', 'Sales and financial reports', 'Attendance management', 'Cloud sync', 'Supplier management', 'E-Wallet integration', 'Priority email support', 'AI Help Assistance', 'Delivery management support'],
+        },
+        {
+          name: 'Premium',
+          price: '₱59,999',
+          detail: 'Businesses requiring CCTV monitoring, advanced analytics, and multi-device access.',
+          features: ['Smart POS Terminal', '10 user accounts', 'Unlimited products', 'Full inventory suite', 'CCTV integration for up to 4 cameras', 'Advanced analytics', 'Attendance management', 'Multi-device sync', 'All integrations', '24/7 phone support', 'AI Help Assistance', 'Delivery management support'],
+        },
+        {
+          name: 'Enterprise',
+          price: 'Custom',
+          detail: 'Large retail chains requiring tailored features and support.',
+          features: ['Smart POS Terminal', 'Unlimited users and products', 'Enterprise inventory', 'Unlimited CCTV integration', 'Custom analytics dashboard', 'Multi-branch support', 'API access', 'Dedicated account manager', 'On-site training', 'Custom integrations'],
+        },
+      ],
+      saas: [
+        {
+          name: 'Basic',
+          price: '₱1,999/month',
+          previousPrice: '₱2,999/month',
+          detail: 'Small businesses starting with POS and local operations.',
+          features: ['Smart POS Terminal', '2 user accounts', 'Up to 100 products', 'Basic inventory management', 'Sales reports', 'Local storage and backup', 'E-Wallet integration', 'Email support', 'AI Help Assistance', 'Delivery management support'],
+        },
+        {
+          name: 'Standard',
+          price: '₱3,999/month',
+          previousPrice: '₱5,999/month',
+          detail: 'Growing retail stores requiring cloud sync and business management tools.',
+          badge: 'Most Popular',
+          features: ['Smart POS Terminal', '5 user accounts', 'Up to 500 products', 'Advanced inventory', 'Sales and financial reports', 'Attendance management', 'Cloud sync', 'Supplier management', 'E-Wallet integration', 'Priority email support', 'AI Help Assistance', 'Delivery management support'],
+        },
+        {
+          name: 'Premium',
+          price: '₱6,999/month',
+          previousPrice: '₱9,999/month',
+          detail: 'Businesses requiring CCTV monitoring, advanced analytics, and multi-device access.',
+          features: ['Smart POS Terminal', '10 user accounts', 'Unlimited products', 'Full inventory suite', 'CCTV integration for up to 4 cameras', 'Advanced analytics', 'Attendance management', 'Multi-device sync', 'All integrations', '24/7 phone support', 'AI Help Assistance', 'Delivery management support'],
+        },
+        {
+          name: 'Enterprise',
+          price: 'Custom',
+          detail: 'Large retail chains requiring tailored features and support.',
+          features: ['Smart POS Terminal', 'Unlimited users and products', 'Enterprise inventory', 'Unlimited CCTV integration', 'Custom analytics dashboard', 'Multi-branch support', 'API access', 'Dedicated account manager', 'On-site training', 'Custom integrations'],
+        },
+      ],
+    },
   },
   {
     id: 'workflow-automation',
@@ -62,22 +101,29 @@ const systems = [
 
 const AvailSystemsPage = ({ theme = 'light' }) => {
   const [selectedSystemId, setSelectedSystemId] = useState(systems[0].id);
+  const [pricingModel, setPricingModel] = useState('saas');
   const selectedSystem = useMemo(
     () => systems.find((system) => system.id === selectedSystemId) || systems[0],
     [selectedSystemId]
   );
-  const [selectedPlanName, setSelectedPlanName] = useState(selectedSystem.plans[0].name);
+  const availablePlans = selectedSystem.pricingModels?.[pricingModel] || selectedSystem.plans;
+  const [selectedPlanName, setSelectedPlanName] = useState(availablePlans[0].name);
 
   const handleSystemChange = (systemId) => {
     const nextSystem = systems.find((system) => system.id === systemId) || systems[0];
     setSelectedSystemId(nextSystem.id);
-    setSelectedPlanName(nextSystem.plans[0].name);
+    setSelectedPlanName((nextSystem.pricingModels?.[pricingModel] || nextSystem.plans)[0].name);
   };
 
-  const activePlan = selectedSystem.plans.find((plan) => plan.name === selectedPlanName) || selectedSystem.plans[0];
+  const handlePricingModelChange = (model) => {
+    setPricingModel(model);
+    setSelectedPlanName(selectedSystem.pricingModels[model][0].name);
+  };
+
+  const activePlan = availablePlans.find((plan) => plan.name === selectedPlanName) || availablePlans[0];
 
   return (
-    <div className="space-y-8 pb-12 text-slate-900 dark:text-slate-100 bg-gradient-to-b from-white via-blue-50 to-white dark:bg-gradient-to-b dark:from-slate-950 dark:via-blue-950 dark:to-black">
+    <div className="avail-systems-page space-y-8 pb-12 text-slate-900 dark:text-slate-100 bg-gradient-to-b from-white via-blue-50 to-white dark:bg-gradient-to-b dark:from-slate-950 dark:via-blue-950 dark:to-black">
       <section className="relative overflow-hidden rounded-[2rem] border border-blue-100 bg-gradient-to-r from-white via-blue-50 to-blue-100 px-6 py-10 text-slate-900 shadow-2xl sm:px-10 dark:border-slate-800 dark:bg-gradient-to-r dark:from-slate-950 dark:via-blue-950 dark:to-black dark:text-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(59,130,246,0.25),_transparent_36%),radial-gradient(circle_at_bottom_left,_rgba(244,63,94,0.2),_transparent_30%)]" />
         <div className="relative max-w-3xl">
@@ -126,15 +172,18 @@ const AvailSystemsPage = ({ theme = 'light' }) => {
         </div>
 
         <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8 dark:border-slate-800 dark:bg-slate-900">
-          <div className={`rounded-[1.5rem] bg-gradient-to-br ${selectedSystem.accent} p-6 text-white shadow-xl`}>
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/75">Featured system</p>
-                <h2 className="mt-2 text-3xl font-black">{selectedSystem.name}</h2>
+          <div className={`relative overflow-hidden rounded-[1.5rem] bg-gradient-to-br ${selectedSystem.accent} p-6 text-white shadow-xl`}>
+            <div className="absolute inset-0 bg-slate-950/25" aria-hidden="true" />
+            <div className="relative">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/90">Featured system</p>
+                  <h2 className="mt-2 text-3xl font-black text-white">{selectedSystem.name}</h2>
+                </div>
+                <span className="rounded-full border border-white/30 bg-slate-950/35 px-4 py-1 text-sm font-semibold text-white">{selectedSystem.badge}</span>
               </div>
-              <span className="rounded-full bg-white/15 px-4 py-1 text-sm font-semibold">{selectedSystem.badge}</span>
+              <p className="mt-4 max-w-2xl text-white">{selectedSystem.summary}</p>
             </div>
-            <p className="mt-4 max-w-2xl text-white/90">{selectedSystem.summary}</p>
           </div>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -148,16 +197,38 @@ const AvailSystemsPage = ({ theme = 'light' }) => {
           <div className="mt-8">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h3 className="text-2xl font-bold text-slate-900">Subscription plans</h3>
-                <p className="text-sm text-slate-600">Select a plan for {selectedSystem.name}.</p>
+                <h3 className="text-2xl font-bold text-slate-900">Pricing packages</h3>
+                <p className="text-sm text-slate-600">Select a package for {selectedSystem.name}.</p>
               </div>
               <span className="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-600">
                 Selected: {activePlan.name}
               </span>
             </div>
 
-            <div className="mt-5 grid gap-4 lg:grid-cols-3">
-              {selectedSystem.plans.map((plan) => {
+            {selectedSystem.pricingModels && (
+              <div className="mt-5 inline-flex rounded-full border border-slate-200 bg-slate-100 p-1 dark:border-slate-700 dark:bg-slate-800" aria-label="Pricing model">
+                {[
+                  { id: 'saas', label: 'SaaS subscription' },
+                  { id: 'oneTime', label: 'One-time license' },
+                ].map((model) => (
+                  <button
+                    key={model.id}
+                    type="button"
+                    onClick={() => handlePricingModelChange(model.id)}
+                    className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                      pricingModel === model.id
+                        ? 'bg-blue-600 text-white shadow-sm'
+                        : 'text-slate-600 hover:bg-white hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white'
+                    }`}
+                  >
+                    {model.label}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <div className="mt-5 grid gap-4 lg:grid-cols-2">
+              {availablePlans.map((plan) => {
                 const isSelected = plan.name === selectedPlanName;
 
                 return (
@@ -176,8 +247,12 @@ const AvailSystemsPage = ({ theme = 'light' }) => {
                         <h4 className="text-lg font-bold text-slate-900">{plan.name}</h4>
                         <p className="mt-2 text-sm text-slate-600">{plan.detail}</p>
                       </div>
-                      <span className="text-2xl font-black text-slate-900">{plan.price}</span>
+                      <div className="text-right">
+                        <span className="block text-2xl font-black text-slate-900">{plan.price}</span>
+                        {plan.previousPrice && <span className="text-xs font-medium text-slate-500 line-through">{plan.previousPrice}</span>}
+                      </div>
                     </div>
+                    {plan.badge && <span className="mt-3 inline-flex rounded-full bg-rose-100 px-3 py-1 text-xs font-bold text-rose-800">{plan.badge}</span>}
                     <ul className="mt-4 space-y-2 text-sm text-slate-700">
                       {plan.features.map((feature) => (
                         <li key={feature} className="flex items-center gap-2">

@@ -150,6 +150,68 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--galaxy-cyan) !important;
 }
 
+/* Keep the existing galaxy palette while ensuring action labels remain readable.
+   The bright blue and pink theme colors need a dark foreground; white text
+   does not provide enough contrast across the full gradient. */
+.dark .galaxy-cta {
+  color: #0F172A !important;
+  text-shadow: none;
+}
+
+/* The dark-mode blue overrides intentionally keep the theme blue. Use the
+   same deep navy already present in the galaxy background for button labels. */
+.dark button[class*="bg-blue-600"],
+.dark button[class*="bg-blue-700"],
+.dark a[class*="bg-blue-600"],
+.dark a[class*="bg-blue-700"] {
+  color: #0F172A !important;
+}
+
+/* Green-600 is also too bright for white button text in both themes. */
+button[class*="bg-green-600"],
+button[class*="bg-green-700"] {
+  color: #0F172A !important;
+}
+
+/* Available Systems uses light selection surfaces in light mode. Give those
+   same surfaces a dark galaxy treatment so inherited dark text rules never
+   place white content on a pale card. */
+.dark .avail-systems-page [class*="bg-slate-50"],
+.dark .avail-systems-page [class*="bg-slate-100"] {
+  background-color: #1E293B !important;
+}
+
+.dark .avail-systems-page [class*="bg-blue-50"] {
+  background-color: #172554 !important;
+}
+
+.dark .avail-systems-page [class*="text-slate-900"] {
+  color: #F9FAFB !important;
+}
+
+.dark .avail-systems-page [class*="text-slate-700"] {
+  color: #CBD5E1 !important;
+}
+
+.dark .avail-systems-page [class*="text-slate-600"] {
+  color: #CBD5E1 !important;
+}
+
+.dark .avail-systems-page [class*="text-slate-500"] {
+  color: #CBD5E1 !important;
+}
+
+/* Make selected and unselected cards distinguishable without changing the
+   blue theme: selected cards get a stronger themed border and surface. */
+.avail-systems-page button[class*="border-blue-500"] {
+  border-color: #2563EB !important;
+}
+
+.dark .avail-systems-page button[class*="border-blue-500"] {
+  border-color: #60A5FA !important;
+  box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.25), 0 8px 24px rgba(15, 23, 42, 0.35);
+}
+
 /* Animated subtle star overlay for dark mode */
 .galaxy-stars {
   position: fixed;
